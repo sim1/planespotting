@@ -1,0 +1,4 @@
+commonLabels:
+  app: piaware
+resources:
+  - piaware.yml

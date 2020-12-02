@@ -1,0 +1,4 @@
+commonLabels:
+  app: adsbx
+resources:
+  - adsbx.yml

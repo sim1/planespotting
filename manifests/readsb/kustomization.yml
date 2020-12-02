@@ -1,0 +1,4 @@
+commonLabels:
+  app: readsb
+resources:
+  - readsb.yml

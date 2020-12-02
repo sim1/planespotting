@@ -1,0 +1,5 @@
+commonLabels:
+  app: flightradar24
+  allow/ingress-nginx: "true"
+resources:
+  - flightradar24.yml

@@ -1,0 +1,5 @@
+commonLabels:
+  app: tar1090
+  allow/ingress-nginx: "true"
+resources:
+  - tar1090.yml
