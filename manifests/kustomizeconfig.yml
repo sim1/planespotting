@@ -1,0 +1,7 @@
+varReference:
+  - path: spec/tls/hosts
+    kind: Ingress
+  - path: spec/rules/host
+    kind: Ingress
+  - path: spec/template/spec/volumes/hostPath/path
+    kind: Deployment

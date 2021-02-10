@@ -1,0 +1,62 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: planespotting
+configurations:
+  - kustomizeconfig.yml
+
+bases:
+  - tar1090
+  - readsb
+  - adsbx
+  - flightradar24
+
+resources:
+  - resources.yml
+
+configMapGenerator:
+  - name: planespotting-config
+    namespace: planespotting
+    envs:
+      - planespotting.env
+
+vars:
+  - name: READSB_LAT
+    objref:
+      kind: ConfigMap
+      name: planespotting-config
+      namespace: planespotting
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.READSB_LAT
+  - name: READSB_LON
+    objref:
+      kind: ConfigMap
+      name: planespotting-config
+      namespace: planespotting
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.READSB_LON
+  - name: USB_RECEIVER_PATH
+    objref:
+      kind: ConfigMap
+      name: planespotting-config
+      namespace: planespotting
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.USB_RECEIVER_PATH
+  - name: TAR1090_HOST
+    objref:
+      kind: ConfigMap
+      name: planespotting-config
+      namespace: planespotting
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.TAR1090_HOST
+  - name: FR24_HOST
+    objref:
+      kind: ConfigMap
+      name: planespotting-config
+      namespace: planespotting
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.FR24_HOST

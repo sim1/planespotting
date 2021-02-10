@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readsb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - name: readasb
+          image: mikenye/readsb-protobuf
+          envFrom:
+            - configMapRef:
+                name: planespotting-config
+
+          volumeMounts:
+            - name: usb-adsb-receiver
+              mountPath: $(USB_RECEIVER_PATH)
+          securityContext:
+            privileged: true
+      volumes:
+        - name: usb-adsb-receiver
+          hostPath:
+            path: $(USB_RECEIVER_PATH)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readsb
+spec:
+  ports:
+    - port: 8080
+      name: http
+    - port: 30005
+      name: beast

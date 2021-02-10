@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flightradar24
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - name: fr24feed
+          image: mikenye/fr24feed
+          envFrom:
+            - configMapRef:
+                name: planespotting-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flightradar24
+spec:
+  ports:
+    - port: 8754
+      name: http
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: flightradar24
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - "$(FR24_HOST)"
+      secretName: fr24-tls
+  rules:
+    - host: "$(FR24_HOST)"
+      http:
+        paths:
+          - backend:
+              serviceName: flightradar24
+              servicePort: 8754
+            path: /
+---
